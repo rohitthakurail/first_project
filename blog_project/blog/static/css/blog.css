@@ -1,3 +1,12 @@
+textarea {border-radius: 1px;
+box-shadow:none;
+-webkit-transition:none;
+height:auto;
+display:block;
+width:100%;
+padding:6px 12px;
+
+}
 .techfont{
   font-family: 'Russo One', sans-serif;
   font-size: 1.5em;

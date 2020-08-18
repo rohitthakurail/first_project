@@ -1,5 +1,5 @@
 {% extends 'blog/base.html' %}
-
+{%load static%}
 {% block content %}
 
 
@@ -25,27 +25,50 @@
 
 
   <hr>
-  <a class="btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+
   <div class="container">
 
-
+    <div class="loader post">
+        <h4>Comments On This Post:</h4>
+    </div>
   {% for comment in post.comments.all %}
   <br>
-      {% if user.is_authenticated or comment.approved_comment %}
+      {% if user.is_authenticated %}
 
               {{ comment.created_date }}
-              {% if not comment.approved_comment %}
-                  <a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}">Remove Comment</a>
-                  <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}">Approve Comment</a>
-              {% endif %}
 
+                  <a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}">Remove Comment</a>
+
+                {% endif %}
           <p>{{ comment.text|safe|linebreaks }}</p>
           <p>Posted by: <strong>{{ comment.author }}</strong></p>
 
-      {% endif %}
+
   {% empty %}
       <p>No comments posted.</p>
   {% endfor %}
+
+<!--      {% if new_comment %}-->
+<!--  <h2>Comment has been added.</h2>-->
+<!--{% else %}-->
+  <div>
+      <button id="addcomment">Add comment</button>
+  <form style="opacity:0" method="POST" id="commentform">
+    <div class="form-group">
+      {% csrf_token %}
+    {{comment_form.as_p}}
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+  </div>
+  </form>
+</div>
+<script>
+  $("#addcomment").click(function(){
+    $("#commentform").css("opacity",'1');
+    $("#addcomment").hide()
+  });
+</script>
+    <script>var editor = new MediumEditor('.editable');</script>
+{% endif %}
 </div>
 
 {% endblock %}

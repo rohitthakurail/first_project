@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-
+from django.db.models import Count
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User',on_delete=models.ProtectedError)
@@ -9,6 +9,9 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+
+    def comment_count(self):
+        return self.comments.filter(created_date__lte=timezone.now())
 
     def publish(self):
         self.published_date = timezone.now()

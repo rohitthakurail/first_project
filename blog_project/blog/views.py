@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from blog.models import Post, Comment
 from django.utils import timezone
 from blog.forms import PostForm, CommentForm
-
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
                                   UpdateView,DeleteView)
@@ -16,6 +15,7 @@ class AboutView(TemplateView):
 
 class PostListView(ListView):
     model = Post
+
 
     def get_queryset(self):
         return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -56,6 +56,9 @@ class PostDeleteView(LoginRequiredMixin,DeleteView):
 #######################################
 ## Functions that require a pk match ##
 #######################################
+
+
+
 def PostDetailView(request, pk):
     post = get_object_or_404(Post, pk=pk)
 

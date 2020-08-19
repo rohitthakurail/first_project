@@ -12,4 +12,5 @@ urlpatterns = [
     path('post/<pk>/remove/', views.PostDeleteView.as_view(), name='post_remove'),
     path('post/<pk>/publish/', views.post_publish, name='post_publish'),
     path('comment/<pk>/remove/', views.comment_remove, name='comment_remove'),
+    path('post/<pk>/likepost/',views.likePost,name='likepost'),
 ]

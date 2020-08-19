@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-from django.db.models import Count
+
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User',on_delete=models.ProtectedError)
@@ -42,4 +42,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class Like(models.Model):
+    post = models.ForeignKey(Post,related_name='Likes' ,on_delete=models.CASCADE)
+
 

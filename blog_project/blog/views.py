@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
-from blog.models import Post, Comment
+from blog.models import Post, Comment,Like
 from django.utils import timezone
 from blog.forms import PostForm, CommentForm
 from django.views.generic import (TemplateView,ListView,
@@ -102,3 +102,13 @@ def comment_remove(request, pk):
     post_pk = comment.post.pk
     comment.delete()
     return redirect('post_detail', pk=post_pk)
+
+def likePost(request,pk):
+
+    if request.method=='GET':
+        likedpost = Post.objects.get(pk=pk)
+        likeobject = Like(post=likedpost)
+        likeobject.save()
+        return HttpResponse("Liked")
+    else:
+        return HttpResponse("Like not added")

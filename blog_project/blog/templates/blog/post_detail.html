@@ -15,6 +15,12 @@
         {% endif %}
 
       <p class='postcontent' >{{ post.text|safe|linebreaksbr }}</p>
+<hr>
+<span>
+    <a class="likebutton" id="like{{ post.pk }}" href="#" data-catid="{{ post.pk }}"> <button class="btn btn-primary" id="likebutton">Like</button></a>
+{% csrf_token %}
+</span>
+
 
 
       {% if user.is_authenticated %}
@@ -65,8 +71,26 @@
     $("#addcomment").hide()
   });
 </script>
-    <script>var editor = new MediumEditor('.editable');</script>
-{% endif %}
+ <script>
+    $('.likebutton').click(function(){
+    var catid;
+    catid = $(this).attr("data-catid");
+    $.ajax(
+    {
+        type:"GET",
+
+
+        url: "likepost/",
+        data:{
+                 post_id: catid
+        },
+        success: function( data )
+        {
+            $( '#likebutton' ).css("color","red");
+        }
+     })
+});
+</script>
 </div>
 
 {% endblock %}
